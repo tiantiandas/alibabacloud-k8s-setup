@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alibabacloud-config
+  namespace: kube-system
+data:
+  alibabacloud-config.json: |-
+    {
+        "Global": {
+            "accessKeyID": base64 encoded access_key_id,
+            "accessKeySecret": base64 encoded access_key_secret
+        }
+    }
+  cloud-controller-manager.conf: |-
+    kind: Config
+    contexts:
+    - context:
+        cluster: kubernetes
+        user: system:cloud-controller-manager
+      name: system:cloud-controller-manager@kubernetes
+    current-context: system:cloud-controller-manager@kubernetes
+    users:
+    - name: system:cloud-controller-manager
+      user:
+        tokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    apiVersion: v1
+    clusters:
+    - cluster:
+        #XXX: the value = $(cat /etc/kubernetes/pki/ca.crt|base64 -w 0)
+        certificate-authority-data: <CERTIFICATE_AUTHORITY_DATA>
+        # https://<ENDPOINT>:6443
+        server: <KUBE_APISERVER_ENDPOINT>
+      name: kubernetes

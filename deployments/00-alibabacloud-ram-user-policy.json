@@ -1,0 +1,121 @@
+{
+    "Version": "1",
+    "Statement": [
+        {
+            "Action": [
+                "ecs:AttachDisk",
+                "ecs:DetachDisk",
+                "ecs:DescribeDisks",
+                "ecs:CreateDisk",
+                "ecs:ResizeDisk",
+                "ecs:CreateSnapshot",
+                "ecs:DeleteSnapshot",
+                "ecs:CreateAutoSnapshotPolicy",
+                "ecs:ApplyAutoSnapshotPolicy",
+                "ecs:CancelAutoSnapshotPolicy",
+                "ecs:DeleteAutoSnapshotPolicy",
+                "ecs:DescribeAutoSnapshotPolicyEX",
+                "ecs:ModifyAutoSnapshotPolicyEx",
+                "ecs:AddTags",
+                "ecs:DescribeTags",
+                "ecs:DescribeSnapshots",
+                "ecs:ListTagResources",
+                "ecs:TagResources",
+                "ecs:UntagResources",
+                "ecs:ModifyDiskSpec",
+                "ecs:CreateSnapshot",
+                "ecs:DeleteDisk",
+                "ecs:DescribeInstanceAttribute",
+                "ecs:DescribeInstances"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "nas:DescribeFileSystems",
+                "nas:DescribeMountTargets",
+                "nas:AddTags",
+                "nas:DescribeTags",
+                "nas:RemoveTags",
+                "nas:CreateFileSystem",
+                "nas:DeleteFileSystem",
+                "nas:ModifyFileSystem",
+                "nas:CreateMountTarget",
+                "nas:DeleteMountTarget",
+                "nas:ModifyMountTarget",
+                "nas:TagResources",
+                "nas:SetDirQuota",
+                "nas:EnableRecycleBin",
+                "nas:GetRecycleBinAttribute"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "oss:PutBucket",
+                "oss:GetObjectTagging",
+                "oss:ListBuckets",
+                "oss:PutBucketTags",
+                "oss:GetBucketTags",
+                "oss:PutBucketEncryption",
+                "oss:GetBucketInfo"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": "slb:*",
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": "ecs:DescribeInstances",
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": "cms:QueryMetric*",
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": "ram:PassRole",
+            "Resource": "*",
+            "Effect": "Allow",
+            "Condition": {
+                "StringEquals": {
+                    "acs:Service": "slb.aliyuncs.com"
+                }
+            }
+        },
+        {
+            "Action": "ram:CreateServiceLinkedRole",
+            "Resource": "*",
+            "Effect": "Allow",
+            "Condition": {
+                "StringEquals": {
+                    "ram:ServiceName": "logdelivery.slb.aliyuncs.com"
+                }
+            }
+        },
+        {
+            "Action": [
+                "vpc:DescribeHaVip*",
+                "vpc:DescribeRouteTable*",
+                "vpc:DescribeRouteEntry*",
+                "vpc:DescribeVSwitch*",
+                "vpc:DescribeVRouter*",
+                "vpc:DescribeVpc*",
+                "vpc:Describe*Cen*",
+                "vpc:ListTag*",
+                "vpc:DescribeTag*",
+                "vpc:DescribeNetworkAcl*",
+                "vpc:DescribeFlowLog*"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        }
+    ]
+}

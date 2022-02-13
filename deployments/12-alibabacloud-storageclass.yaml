@@ -1,0 +1,33 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  name: alicloud-disk-efficiency
+provisioner: diskplugin.csi.alibabacloud.com
+parameters:
+  type: cloud_efficiency
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: alicloud-disk-ssd
+provisioner: diskplugin.csi.alibabacloud.com
+parameters:
+  type: cloud_ssd
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: alicloud-disk-essd
+provisioner: diskplugin.csi.alibabacloud.com
+parameters:
+  type: cloud_essd
+reclaimPolicy: Retain
+allowVolumeExpansion: true
