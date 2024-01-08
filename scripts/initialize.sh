@@ -1,22 +1,18 @@
 #!/bin/bash
 #
 
-sudo apt update
+K8S_MAJOR_VERSION=${1:-1.29}
 
-sudo apt install -y --no-install-recommends \
-ca-certificates curl gnupg lsb-release apt-transport-https
+apt update
 
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# Install
+apt install -y --no-install-recommends apt-transport-https ca-certificates curl
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v${K8S_MAJOR_VERSION}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${K8S_MAJOR_VERSION}/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt update
+apt install -y  --no-install-recommends kubelet kubeadm kubectl
 
-curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-
-sudo apt update
-sudo apt install -y  --no-install-recommends docker-ce kubelet kubeadm kubectl
-
-sudo apt-mark hold kubectl kubelet kubeadm docker-ce
-sudo systemctl enable kubelet docker
+# Fix Kubernetes version
+apt-mark hold kubectl kubelet kubeadm
+systemctl enable kubelet
